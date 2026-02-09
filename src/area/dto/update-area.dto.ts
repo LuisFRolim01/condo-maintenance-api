@@ -1,4 +1,5 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, IsEnum } from 'class-validator';
+import { AreaStatus } from '../area-status.enum';
 
 export class UpdateAreaDto {
   @IsString()
@@ -8,4 +9,8 @@ export class UpdateAreaDto {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @IsEnum(AreaStatus)
+  @IsOptional()
+  status?: AreaStatus;
 }

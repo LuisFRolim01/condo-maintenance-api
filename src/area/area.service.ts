@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Area } from './area.entity';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
+import { AreaStatus } from './area-status.enum';
+
 
 @Injectable()
 export class AreaService {
@@ -9,14 +11,16 @@ export class AreaService {
   private idCounter = 1;
 
   create(createAreaDto: CreateAreaDto): Area {
-    const area: Area = {
-      id: this.idCounter++,
-      ...createAreaDto,
-    };
+  const area: Area = {
+    id: this.idCounter++,
+    name: createAreaDto.name,
+    description: createAreaDto.description,
+    status: createAreaDto.status ?? AreaStatus.ATIVA,
+  };
 
-    this.areas.push(area);
-    return area;
-  }
+  this.areas.push(area);
+  return area;
+}
 
   findAll(): Area[] {
     return this.areas;
@@ -31,25 +35,25 @@ export class AreaService {
   }
 
   update(id: number, dto: UpdateAreaDto) {
-  const index = this.areas.findIndex(area => area.id === id);
+  const area = this.findOne(id);
 
-  if (index === -1) {
-    throw new NotFoundException('Área não encontrada');
+  if (dto.name !== undefined) {
+    area.name = dto.name;
   }
 
-  const areaAtual = this.areas[index];
+  if (dto.description !== undefined) {
+    area.description = dto.description;
+  }
 
-  const areaAtualizada = {
-    ...areaAtual,
-    ...dto,
-  };
+  if (dto.status !== undefined) {
+    area.status = dto.status;
+  }
 
-  this.areas[index] = areaAtualizada;
-
-  return areaAtualizada;
+  return area;
 }
 
 
+  
 
   remove(id: number): void {
     const index = this.areas.findIndex(a => a.id === id);

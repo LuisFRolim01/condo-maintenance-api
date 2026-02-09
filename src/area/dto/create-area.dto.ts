@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString, IsDateString, IsOptional} from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional, IsEnum} from 'class-validator';
+import { AreaStatus } from '../area-status.enum';
 
 export class CreateAreaDto {
   @IsString()
@@ -8,4 +9,8 @@ export class CreateAreaDto {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @IsEnum(AreaStatus)
+  @IsOptional()
+  status?: AreaStatus;
 }
