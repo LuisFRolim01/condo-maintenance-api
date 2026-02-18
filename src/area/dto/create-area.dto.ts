@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsOptional, IsEnum} from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional, IsEnum, IsEmail} from 'class-validator';
 import { AreaStatus } from '../area-status.enum';
 
 export class CreateAreaDto {
@@ -8,9 +8,13 @@ export class CreateAreaDto {
 
   @IsString()
   @IsOptional()
-  description?: string;
+  description: string;
 
   @IsEnum(AreaStatus)
   @IsOptional()
-  status?: AreaStatus;
+  status: AreaStatus;
+
+  @IsEmail()
+  email: string;
+
 }

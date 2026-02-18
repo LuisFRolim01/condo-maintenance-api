@@ -1,8 +1,20 @@
-import { AreaStatus } from './area-status.enum';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Maintenance } from '../maintenance/maintenance.entity';
 
+@Entity()
 export class Area {
+  @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
   name: string;
-  description?: string;
-  status: AreaStatus;
+
+  @Column()
+  description: string;
+
+  @Column()
+  email: string;
+
+  @OneToMany(() => Maintenance, maintenance => maintenance.area)
+  maintenances: Maintenance[];
 }
